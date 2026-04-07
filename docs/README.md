@@ -136,6 +136,63 @@ This directory contains documentation for the student account management system 
 
 ---
 
+## Data Flow Sequence Diagram
+
+```mermaid
+sequenceDiagram
+    participant User
+    participant MainProgram as MainProgram<br/>(main.cob)
+    participant Operations as Operations<br/>(operations.cob)
+    participant DataProgram as DataProgram<br/>(data.cob)
+
+    User->>MainProgram: Selects menu option (1-4)
+    MainProgram->>Operations: CALL Operations with operation type
+
+    alt View Balance (TOTAL)
+        Operations->>DataProgram: CALL with 'READ' operation
+        DataProgram->>DataProgram: Retrieve STORAGE-BALANCE
+        DataProgram-->>Operations: Return current balance
+        Operations->>User: Display "Current balance: $X.XX"
+    
+    else Credit Account (CREDIT)
+        Operations->>User: Prompt "Enter credit amount:"
+        User->>Operations: Input credit amount
+        Operations->>DataProgram: CALL with 'READ' operation
+        DataProgram-->>Operations: Return current balance
+        Operations->>Operations: ADD credit amount to balance
+        Operations->>DataProgram: CALL with 'WRITE' operation + new balance
+        DataProgram->>DataProgram: Update STORAGE-BALANCE
+        DataProgram-->>Operations: Acknowledge write
+        Operations->>User: Display "Amount credited. New balance: $X.XX"
+    
+    else Debit Account (DEBIT)
+        Operations->>User: Prompt "Enter debit amount:"
+        User->>Operations: Input debit amount
+        Operations->>DataProgram: CALL with 'READ' operation
+        DataProgram-->>Operations: Return current balance
+        alt Balance >= Debit Amount
+            Operations->>Operations: SUBTRACT debit from balance
+            Operations->>DataProgram: CALL with 'WRITE' operation + new balance
+            DataProgram->>DataProgram: Update STORAGE-BALANCE
+            DataProgram-->>Operations: Acknowledge write
+            Operations->>User: Display "Amount debited. New balance: $X.XX"
+        else Balance < Debit Amount
+            Operations->>User: Display "Insufficient funds for this debit."
+        end
+    
+    else Exit (4)
+        Operations-->>MainProgram: GOBACK
+        MainProgram->>User: Display "Exiting the program. Goodbye!"
+        MainProgram->>MainProgram: STOP RUN
+    end
+
+    Operations-->>MainProgram: GOBACK
+    MainProgram->>MainProgram: Return to menu (if not exit)
+    MainProgram->>User: Display menu options again
+```
+
+---
+
 ## Modernization Opportunities
 
 - Migrate to modern programming language (Java, C#, Python)
