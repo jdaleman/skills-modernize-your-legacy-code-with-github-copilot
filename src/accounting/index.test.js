@@ -152,7 +152,7 @@ describe('Operations - Business Logic Layer', () => {
       test('TC009: should credit 999999 to balance of 1000.00', () => {
         const initialBalance = dataProgram.read();
         dataProgram.write(initialBalance + 999999);
-        expect(dataProgram.read()).toBe(1000000.00);
+        expect(dataProgram.read()).toBe(1000999.00);
       });
     });
 
