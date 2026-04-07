@@ -1,0 +1,25 @@
+{
+  "name": "student-account-management",
+  "version": "1.0.0",
+  "description": "Student Account Management System - Node.js Modernization",
+  "main": "src/accounting/index.js",
+  "scripts": {
+    "start": "node src/accounting/index.js",
+    "test": "jest",
+    "test:watch": "jest --watch"
+  },
+  "keywords": [
+    "account",
+    "management",
+    "student",
+    "modernization"
+  ],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "prompt-sync": "^4.2.0"
+  },
+  "devDependencies": {
+    "jest": "^29.7.0"
+  }
+}

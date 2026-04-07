@@ -5,6 +5,17 @@
     "version": "0.2.0",
     "configurations": [
         {
+            "type": "node",
+            "request": "launch",
+            "name": "Node.js: Launch Account Management System",
+            "program": "${workspaceFolder}/src/accounting/index.js",
+            "cwd": "${workspaceFolder}",
+            "console": "integratedTerminal",
+            "skipFiles": [
+                "<node_internals>/**"
+            ]
+        },
+        {
             "type": "cobol",
             "request": "launch",
             "name": "COBOL (native): Launch",
